@@ -92,7 +92,14 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
   scrollbar-width: none; }
 .screen::-webkit-scrollbar { display: none; }
 .screen > * { flex-shrink: 0; }
-.screen > .spin-stage, .screen > .pond, .screen > .orb-stage { flex: 1 0 auto; }
+/* Play areas take whatever height is left and shrink on short screens, so controls stay above the tab bar. */
+.screen > .spin-stage, .screen > .pond, .screen > .orb-stage, .screen > .sheet-wrap { flex: 1 1 0; min-height: 190px; }
+.spin-stage, .orb-stage { container-type: size; }
+@media (max-height: 760px) {
+  .hero .n { font-size: 64px; } .hero .u { font-size: 24px; }
+  .screen [style*="margin-top:22px"], .screen [style*="margin-top:18px"] { margin-top: 8px !important; }
+  .cap { margin-top: 4px; }
+}
 .top .back { margin-right: 4px; }
 .top .h { flex: 1; min-width: 0; }
 
@@ -157,8 +164,8 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .note { color: var(--muted); font-size: 12.5px; margin-top: 18px; }
 
 /* ---------- Spin ---------- */
-.spin-stage { flex: 1; display: grid; place-items: center; min-height: 270px; padding-block: 4px; }
-.spinner-wrap { width: min(80vw, 330px); aspect-ratio: 1; max-width: 100%; touch-action: none; cursor: grab; position: relative; }
+.spin-stage { display: grid; place-items: center; padding-block: 4px; }
+.spinner-wrap { width: min(80vw, 330px, 92cqh); aspect-ratio: 1; max-width: 100%; touch-action: none; cursor: grab; position: relative; }
 .spinner-wrap:active { cursor: grabbing; }
 .spinner-wrap svg { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 18px 24px color-mix(in srgb, var(--spin-lo) 30%, transparent)); }
 .swatches { display: flex; justify-content: center; gap: 10px; margin-bottom: 16px; }
@@ -167,8 +174,9 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .sw[aria-pressed="true"] { box-shadow: inset 0 0 0 2px var(--ink); }
 
 /* ---------- Pop ---------- */
-.sheet-wrap { margin-top: 18px; background: var(--surface); border-radius: 30px; box-shadow: var(--shadow); padding: 14px; }
-.bubbles { display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; touch-action: none; user-select: none; -webkit-user-select: none; }
+.sheet-wrap { margin-top: 14px; background: var(--surface); border-radius: 30px; box-shadow: var(--shadow); padding: 14px;
+  container-type: size; display: grid; place-items: center; }
+.bubbles { width: min(100cqw, 100cqh); display: grid; grid-template-columns: repeat(6, 1fr); gap: 7px; touch-action: none; user-select: none; -webkit-user-select: none; }
 .bub { aspect-ratio: 1; max-width: 100%; border-radius: 50%; position: relative;
   background: radial-gradient(circle at 34% 28%, #fff 0 7%, var(--pop-hi) 18%, var(--pop) 62%, var(--pop-lo) 100%);
   box-shadow: 0 6px 10px color-mix(in srgb, var(--pop-lo) 30%, transparent), inset 0 -4px 8px color-mix(in srgb, var(--pop-lo) 50%, transparent);
@@ -179,7 +187,7 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .bub.out::after { content: ""; position: absolute; inset: 30%; border-radius: 40% 60% 45% 55%;
   border: 1.5px solid color-mix(in srgb, var(--pop-lo) 25%, transparent); transform: rotate(var(--rot, 20deg)); }
 @keyframes squash { 0% { transform: scale(1.08); } 60% { transform: scale(.8); } 100% { transform: scale(.86); } }
-.pop-actions { margin-top: 18px; display: grid; }
+.pop-actions { margin-top: 14px; display: grid; }
 
 /* ---------- Ripple ---------- */
 .pond { flex: 1; margin-top: 16px; min-height: 320px; border-radius: 30px; position: relative; overflow: hidden; touch-action: none;
@@ -198,8 +206,8 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
 .chipbtn[aria-pressed="true"] { background: var(--ink); color: var(--on-ink); }
 
 /* ---------- Breathe ---------- */
-.orb-stage { flex: 1; display: grid; place-items: center; min-height: 320px; }
-.orb { width: min(72vw, 300px); aspect-ratio: 1; max-width: 100%; border-radius: 50%; position: relative; display: grid; place-items: center; transform: scale(.62);
+.orb-stage { display: grid; place-items: center; }
+.orb { width: min(72vw, 300px, 80cqh); aspect-ratio: 1; max-width: 100%; border-radius: 50%; position: relative; display: grid; place-items: center; transform: scale(.62);
   background: radial-gradient(circle at 38% 30%, color-mix(in srgb, #fff 70%, var(--breathe-hi)) 0%, var(--breathe-hi) 30%, var(--breathe) 75%);
   box-shadow: 0 30px 60px color-mix(in srgb, var(--breathe) 35%, transparent), 0 0 0 18px color-mix(in srgb, var(--breathe) 10%, transparent),
     0 0 0 40px color-mix(in srgb, var(--breathe) 6%, transparent); will-change: transform; }
