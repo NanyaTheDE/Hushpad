@@ -829,7 +829,9 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
     if (name === 'slime') sizeSlime();
     if (name === 'sand') sizeSand();
     if (name === 'today') renderToday();
-    if (location.hash.slice(1) !== name) history.replaceState(null, '', '#' + name);
+    // Today is home, so its address stays clean (no #today); other toys keep a hash so refresh returns to them.
+    const want = name === 'today' ? '' : '#' + name;
+    if (location.hash !== want) history.replaceState(null, '', want || location.pathname + location.search);
   }
   $$('.tab').forEach(t => t.addEventListener('click', () => show(t.dataset.tab)));
   $$('[data-go]').forEach(c => c.addEventListener('click', () => show(c.dataset.go)));
