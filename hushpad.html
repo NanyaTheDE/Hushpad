@@ -100,6 +100,12 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible { outline: 2px s
   .screen [style*="margin-top:22px"], .screen [style*="margin-top:18px"] { margin-top: 8px !important; }
   .cap { margin-top: 4px; }
 }
+@media (max-height: 700px) {
+  .screen:not([data-name="today"]) .hero .n { font-size: 52px; }
+  .screen:not([data-name="today"]) .hero .u { font-size: 20px; }
+  .screen[data-name="pop"] .cap, .screen[data-name="spin"] .cap { display: none; }
+  .h .m { font-size: 15px; }
+}
 .top .back { margin-right: 4px; }
 .top .h { flex: 1; min-width: 0; }
 
